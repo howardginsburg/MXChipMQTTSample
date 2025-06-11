@@ -1,0 +1,1 @@
+python3 az3166_patch_binary.py ../.pio/build/mxchip_az3166/firmware.bin mxchip_mqttsample.bin

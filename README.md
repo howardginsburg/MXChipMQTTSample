@@ -18,7 +18,7 @@ This project represents a simple example of sending sensor data from an [MXChip 
 
 ### Option 2: Copy the compiled binary to the MXChip device
 
-1. TODO
+1. Download the [binary](/binary/mxchip_mqttsample.bin) file and copy it to your MXChip device.
 
 ## Device Configuration
 
