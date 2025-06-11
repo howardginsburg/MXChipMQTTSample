@@ -13,10 +13,12 @@ This project represents a simple example of sending sensor data from an [MXChip 
 
 1. Clone this repository to your local machine.
 1. Open Visual Studio Code to the project directory.
-1. Update the `platformio.ini` file with your Wi-Fi network credentials and MQTT broker information.  If you have multiple boards, make sure you give each one a unique client id and mqtt topic to publish to.
+1. Optionally, update the `platformio.ini` file with if you want to override some of the default settings used in the code.
 1. Build and upload the project to the MXChip device.
 
 ### Option 2: Copy the compiled binary to the MXChip device
+
+1. TODO
 
 ## Device Configuration
 
