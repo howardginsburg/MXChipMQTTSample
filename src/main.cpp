@@ -5,6 +5,7 @@
 #include <OledDisplay.h>
 #include "EEPROMInterface.h"
 #include "SensorManager.h"
+#include <time.h>
 
 // Maximum packet size for MQTT messages.  We need to override the default of 100 in MQTTClient.h.
 const int MQTT_MAX_PACKET_SIZE = 400;
@@ -194,12 +195,19 @@ int sendMQTTMessage(float* currentTemperature, float* currentHumidity, float* cu
     return rc;
   }
 
-
-  
   Serial.printf("Connecting to MQTT topic %s \n", topic);
 
+  // Get current time and format as yyyy/mm/dd hh:mm:ss:mmm
+  time_t now = time(NULL);
+  struct tm *tm_info = localtime(&now);
+  char dateTimeStr[25]; // yyyy/mm/dd hh:mm:ss:mmm\0
+  int ms = millis() % 1000;
+  snprintf(dateTimeStr, sizeof(dateTimeStr), "%04d/%02d/%02d %02d:%02d:%02d:%03d",
+           tm_info->tm_year + 1900, tm_info->tm_mon + 1, tm_info->tm_mday,
+           tm_info->tm_hour, tm_info->tm_min, tm_info->tm_sec, ms);
+
   char buf[MQTT_MAX_PACKET_SIZE];
-  sprintf(buf, "{\"device\":\"%s\",\"mac\":\"%s\",\"temperature\":%.2f,\"humidity\":%.2f,\"pressure\":%.2f,\"gyroX\":%d,\"gyroY\":%d,\"gyroZ\":%d,\"buttonA\":%d,\"buttonB\":%d}", deviceId, WiFiInterface()->get_mac_address(), *currentTemperature, *currentHumidity, *currentPressure, *gyroX, *gyroY, *gyroZ, *buttonAState, *buttonBState);
+  sprintf(buf, "{\"device\":\"%s\",\"mac\":\"%s\",\"temperature\":%.2f,\"humidity\":%.2f,\"pressure\":%.2f,\"gyroX\":%d,\"gyroY\":%d,\"gyroZ\":%d,\"buttonA\":%d,\"buttonB\":%d,\"deviceDateTime\":\"%s\"}", deviceId, WiFiInterface()->get_mac_address(), *currentTemperature, *currentHumidity, *currentPressure, *gyroX, *gyroY, *gyroZ, *buttonAState, *buttonBState, dateTimeStr);
 
   Serial.println(buf);
 
